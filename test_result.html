@@ -1,0 +1,742 @@
+﻿<!DOCTYPE html>
+<html lang="es"><head>
+  <meta charset="UTF-8">
+  <title>PlanCheck AI - Test Runner</title>
+</head>
+<body>
+  <div id="test-output">Ejecutando pruebas...</div>
+
+  <!-- Include hidden DOM dependencies needed by scripts -->
+  <div style="display: none;">
+    <div id="session-timer-display"></div>
+    <div id="plan-source-title"></div>
+    <div id="viewer-viewport">
+      <div id="viewer-content-container"></div>
+    </div>
+    <form id="new-finding-form">
+      <input id="finding-location">
+      <select id="finding-type"><option value="Dimensional">Dimensional</option></select>
+      <textarea id="finding-desc"></textarea>
+      <input id="finding-correction">
+      <select id="finding-confidence"><option value="Alto">Alto</option></select>
+      <button id="btn-submit-finding"></button>
+      <button id="btn-cancel-edit-finding"></button>
+    </form>
+    <div id="findings-list-container"></div>
+    <textarea id="ai-query-input"></textarea>
+    <button id="btn-ask-ai"></button>
+    <div id="ai-results-container">
+      <div class="academic-notice info" style="margin-bottom: 16px;">
+        <div class="academic-notice-title">
+          <span>­ƒö¼</span> Protocolo Human-in-the-Loop (Validaci├│n Humana Cr├¡tica)
+        </div>
+        <p>
+          Se han emitido <strong>10 sugerencias</strong> preliminares. 
+          Cada sugerencia debe ser clasificada cr├¡ticamente como <strong>Error confirmado</strong>, 
+          <strong>No es un error (Falso positivo)</strong> o <strong>Requiere revisi├│n</strong>, justificando su criterio t├®cnico.
+        </p>
+      </div>
+    
+        <div class="ai-suggestion-card validated-confirmed" id="card-AI-01">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-01</span>
+              Discrepancia dimensional en Cocina Depto. F1
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F1 (Norponiente) - Cocina (Kitchen)
+          </div>
+
+          <div class="ai-card-desc">
+            La cota rotulada indica 10'6"X10". En la modulaci├│n estructural sim├®trica del proyecto (Depto. F3) y seg├║n los ejes de cruj├¡a, la cota de dise├▒o es 12'6"X10". Existe una reducci├│n an├│mala de 2'-0" en el ancho.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Inconsistencia dimensional en la cota de ancho respecto a la modulaci├│n de ejes en F1.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Restituir la cota a 12'6"X10" conforme al est├índar del edificio.
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; font-weight: 700; color: #1e3a8a;">Registrado</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn selected-confirmed" onclick="window.validationManager.classify('AI-01', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-01', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-01', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-01', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+              <div style="margin-top: 8px; text-align: right;">
+                <button class="btn btn-secondary btn-sm" onclick="window.validationManager.importToFindings('AI-01')">
+                  ­ƒôÑ Incorporar a mis Hallazgos
+                </button>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-02">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-02</span>
+              Discrepancia en dimensi├│n de fondo de Cocina Depto. F3
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F3 (Nororiente) - Cocina (Kitchen)
+          </div>
+
+          <div class="ai-card-desc">
+            La cota rotulada indica 12'6"X8", observ├índose una reducci├│n de 2'-0" en la profundidad respecto a los 10' de fondo est├índar.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Falta de coincidencia con la cota t├¡pica de cocina de 10' del plano tipo.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Rectificar cota a 12'6"X10".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-02', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-02', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-02', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-02', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-03">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-03</span>
+              Discrepancia de longitud en Dormitorio Depto. F1
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F1 - Bed Room (Sector Poniente)
+          </div>
+
+          <div class="ai-card-desc">
+            La anotaci├│n indica 10'6"X12'2", cuando la distancia entre pa├▒os de muros estructurales corresponde a 14'2" (desfase de 2'-0").
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Inconsistencia entre la longitud acotada y el vano de tabiquer├¡a del dormitorio.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Corregir rotulaci├│n a 10'6"X14'2".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-03', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-03', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-03', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-03', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-04">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-04</span>
+              Sobre-anotaci├│n de ancho en Dormitorio Depto. F3
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F3 - Bed Room (Sector Oriente)
+          </div>
+
+          <div class="ai-card-desc">
+            La cota indica 12'6"X14'2", excediendo en 2'-0" el ancho modular de 10'6" que le corresponde seg├║n la planta tipo.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Discrepancia dimensional por exceso en la dimensi├│n horizontal de dormitorio F3.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Ajustar anotaci├│n a 10'6"X14'2".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-04', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-04', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-04', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-04', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-05">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-05</span>
+              Desfase por exceso en Hall de Acceso Depto. F2
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F2 (Surponiente) - Hall de Acceso
+          </div>
+
+          <div class="ai-card-desc">
+            La cota se├▒ala 10'6"X18'4", lo que representa un incremento de 2'-0" sobre la longitud real de 16'4" del eje sim├®trico F4.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Inconsistencia en la dimensi├│n longitudinal del hall en departamento F2.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Corregir cota a 10'6"X16'4".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-05', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-05', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-05', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-05', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card validated-false_positive" id="card-AI-06">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-06</span>
+              Viga de borde en losa de Balc├│n F1 declarada ausente
+            </span>
+            <span class="finding-type-badge type-inconsistencia">Inconsistencia</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F1 - Balcony (10'6"X4')
+          </div>
+
+          <div class="ai-card-desc">
+            La IA sugiere que el voladizo de 4 pies requiere obligatoriamente una viga perimetral invertida de confinamiento estructural bajo la norma s├¡smica.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Inferencia algor├¡tmica sobre losas en voladizo para edificaci├│n residencial.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Agregar viga perimetral de borde 20x40 cm.
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; font-weight: 700; color: #1e3a8a;">Registrado</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-06', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn selected-false_positive" onclick="window.validationManager.classify('AI-06', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-06', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-06', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-07">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-07</span>
+              Reducci├│n an├│mala de ancho en Hall Depto. F4
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F4 (Suroriente) - Hall de Acceso
+          </div>
+
+          <div class="ai-card-desc">
+            La cota rotulada indica 8'6"X16'4", registrando un estrechamiento de 2'-0" en el ancho respecto a los 10'6" del departamento contiguo.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Discrepancia en la dimensi├│n transversal del hall F4 frente a la cruj├¡a estructural.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Restablecer cota a 10'6"X16'4".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-07', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-07', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-07', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-07', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-08">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-08</span>
+              Discrepancia en Comedor (Dining) Depto. F2
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F2 - Dining
+          </div>
+
+          <div class="ai-card-desc">
+            La cota indica 7'6"X9'4", excediendo en 2'-0" la dimensi├│n de fondo de 7'4" observada en el departamento gemelo F4.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Inconsistencia dimensional en el ├írea de comedor del departamento F2.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Rectificar cota a 7'6"X7'4".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-08', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-08', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-08', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-08', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-09">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-09</span>
+              Discrepancia en Master Bed Room Depto. F4
+            </span>
+            <span class="finding-type-badge type-dimensional">Dimensional</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Depto. F4 - Master Bed Room
+          </div>
+
+          <div class="ai-card-desc">
+            La cota se├▒ala 12'6"X10'2", presentando una discrepancia de 4'-0" respecto a los 14'2" del dormitorio principal sim├®trico.
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Error de rotulaci├│n en la longitud ├║til del dormitorio principal en F4.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Ajustar cota a 12'6"X14'2".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-09', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-09', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-09', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-09', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      
+        <div class="ai-suggestion-card " id="card-AI-10">
+          <div class="ai-card-top">
+            <span class="ai-card-title">
+              <span class="finding-id-tag" style="background: #6b21a8;">AI-10</span>
+              Espesor de tabiquer├¡a ac├║stica entre F1 y F3 considerado insuficiente
+            </span>
+            <span class="finding-type-badge type-inconsistencia">Inconsistencia</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px;">
+            ­ƒôì <strong>Ubicaci├│n:</strong> Muro Divisorio Central entre F1 y F3
+          </div>
+
+          <div class="ai-card-desc">
+            La IA sugiere que el muro divisorio de 6" no satisface el aislamiento ac├║stico de 45 dB y exige aumentarlo a 8".
+          </div>
+
+          <div class="ai-card-rationale">
+            <strong>Fundamento t├®cnico IA:</strong> Estimaci├│n ac├║stica automatizada no requerida en planos de distribuci├│n arquitect├│nica b├ísica.
+          </div>
+
+          
+            <div class="finding-correction" style="margin-bottom: 12px;">
+              <strong>Correcci├│n sugerida:</strong> Modificar espesor de tabique a 8".
+            </div>
+          
+
+          <!-- HITL Classification Section -->
+          <div class="hitl-section">
+            <div class="hitl-header">
+              <h5><span>ÔÜû´©Å</span> Tu Validaci├│n Cr├¡tica:</h5>
+              <span style="font-size: 11px; color: #dc2626; font-weight: 600;">Pendiente de clasificar</span>
+            </div>
+
+            <div class="hitl-validation-buttons">
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-10', 'confirmed')" title="Error confirmado (Acierto de la IA)">
+                <span>Ô£ö´©Å</span> Error confirmado
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-10', 'false_positive')" title="No es un error (Falso positivo descartado)">
+                <span>ÔØî</span> No es un error
+              </button>
+
+              <button class="hitl-btn " onclick="window.validationManager.classify('AI-10', 'needs_review')" title="Requiere revisi├│n t├®cnica adicional">
+                <span>ÔÜá´©Å</span> Requiere revisi├│n
+              </button>
+            </div>
+
+            <div class="hitl-comment-area">
+              <input type="text" class="form-control" style="font-size: 12px; padding: 6px 10px;" placeholder="Comentario t├®cnico / justificaci├│n de tu clasificaci├│n..." value="" onchange="window.validationManager.saveComment('AI-10', this.value)">
+            </div>
+
+            <!-- Import to findings button if confirmed -->
+            
+          </div>
+        </div>
+      </div>
+    <form id="post-session-survey-form">
+      <input type="radio" name="q1_usefulness" value="4">
+      <input type="radio" name="q2_reliability" value="3">
+      <input type="radio" name="q3_facilitation" value="4">
+      <input type="radio" name="q4_need_to_verify" value="5">
+      <input type="radio" name="q5_future_use" value="4">
+      <textarea id="survey-comments"></textarea>
+    </form>
+    <div id="comparison-results-view"></div>
+    <table id="history-table-body"></table>
+    <template id="default-blueprint-template"><svg viewBox="0 0 100 100"></svg></template>
+  </div>
+
+  <script src="scripts/state.js"></script>
+  <script src="scripts/timer.js"></script>
+  <script src="scripts/viewer.js"></script>
+  <script src="scripts/findings.js"></script>
+  <script src="scripts/ai-assistant.js"></script>
+  <script src="scripts/validation.js"></script>
+  <script src="scripts/survey.js"></script>
+  <script src="scripts/comparison.js"></script>
+  <script src="scripts/export.js"></script>
+
+  <script>
+    const results = [];
+    function assert(name, condition) {
+      if (condition) {
+        results.push(`PASS: ${name}`);
+        console.log(`PASS: ${name}`);
+      } else {
+        results.push(`FAIL: ${name}`);
+        console.error(`FAIL: ${name}`);
+      }
+    }
+
+    try {
+      // Test 1: State Initialization & Ground Truth Constants
+      assert('State manager exists', window.state !== undefined);
+      assert('Timer module exists', window.timer !== undefined);
+      assert('Validation manager exists', window.validationManager !== undefined);
+      assert('Ground truth errors count is 8', window.state.GROUND_TRUTH_ERRORS && window.state.GROUND_TRUTH_ERRORS.length === 8);
+      assert('Ground truth contains E1 Cocina F1', window.state.GROUND_TRUTH_ERRORS.some(e => e.id === 'E1'));
+      assert('Ground truth contains E8 Master Bed Room F4', window.state.GROUND_TRUTH_ERRORS.some(e => e.id === 'E8'));
+
+      // Test 2: Start Session
+      const participant = { name: 'Tester', code: 'EST-99', semester: '8vo' };
+      const s = window.state.startNewSession(participant, 'con_ia');
+      assert('Session created with con_ia', s.modality === 'con_ia');
+      assert('Status is in_progress', s.status === 'in_progress');
+
+      // Test 3: Add Finding
+      const f1 = window.state.addFinding({
+        location: 'Cocina F1',
+        type: 'Dimensional',
+        description: 'Cota de cocina cambiada a 10\'6"X10" en lugar de 12\'6"X10"',
+        correction: '12\'6"X10"',
+        confidence: 'Alto'
+      });
+      assert('Finding added with ID', f1.id === 'H-01');
+      assert('Session contains 1 finding', s.findings.length === 1);
+
+      // Test 4: Timer Operations
+      window.timer.start(10);
+      assert('Timer gets elapsed seconds', window.timer.getElapsedSeconds() === 10);
+      assert('Timer format MM:SS works', window.timer.formatTime(75) === '01:15');
+      window.timer.stop();
+
+      // Test 5: AI DEMO simulation & HITL validation
+      const demoAi = new window.AIAssistant();
+      demoAi.simulateDemoInference('Test query').then(() => {
+        assert('AI suggestions count is 10 (8 TP + 2 FP)', s.aiAssistance.suggestions.length === 10);
+
+        // Test 6: Classify as confirmed
+        window.validationManager.classify('AI-01', 'confirmed');
+        assert('AI-01 confirmed', s.aiAssistance.suggestions[0].validation === 'confirmed');
+
+        // Test 7: Classify as false positive
+        window.validationManager.classify('AI-06', 'false_positive');
+        assert('AI-06 marked false positive', s.aiAssistance.suggestions.find(x => x.id === 'AI-06').validation === 'false_positive');
+
+        // Test 8: HITL Stats
+        const hitlStats = window.validationManager.getValidationStats(s);
+        assert('HITL confirmed count is 1', hitlStats.confirmed === 1);
+        assert('HITL falsePositive count is 1', hitlStats.falsePositive === 1);
+
+        // Test 9: Complete Session & Save Survey
+        window.state.finishCurrentSession();
+        assert('Session completed', s.status === 'completed');
+        assert('Ground truth evaluated with 8 errors total', s.groundTruthEvaluation && (s.groundTruthEvaluation.detectedCount + s.groundTruthEvaluation.omittedCount === 8));
+        assert('Ground truth detected E1 correctly', s.groundTruthEvaluation.detectedIds.includes('E1'));
+
+        window.state.saveSurveyResults({
+          ratings: { q1_usefulness: 5, q2_reliability: 4, q3_facilitation: 5, q4_need_to_verify: 5, q5_future_use: 5 },
+          comments: 'Excelente instrumento para validaci├│n de hip├│tesis'
+        });
+        assert('Survey saved', s.survey.ratings.q1_usefulness === 5);
+
+        // Test 10: Load Demo Dataset
+        window.state.loadDemoDataset();
+        assert('Demo dataset contains 6 sessions', window.state.allSessions.length === 6);
+
+        // Test 11: Comparison Calculations
+        const comp = new window.ComparisonManager();
+        const statsNoIa = comp.calculateGroupStats(window.state.allSessions.filter(x => x.modality === 'sin_ia'));
+        const statsWithIa = comp.calculateGroupStats(window.state.allSessions.filter(x => x.modality === 'con_ia'));
+        assert('Comparison Sin IA count is 3', statsNoIa.count === 3);
+        assert('Comparison Con IA count is 3', statsWithIa.count === 3);
+        assert('Ground truth detection calculated (> 0)', statsWithIa.avgGtDetected > 0);
+        assert('Ground truth coverage calculated <= 8', statsWithIa.avgGtDetected <= 8);
+
+        // Test 12: Exporter
+        assert('DataExporter exists', window.dataExporter !== undefined);
+        const csvContent = window.dataExporter.generateCSV(window.state.allSessions);
+        assert('CSV generated contains 8-error columns', csvContent.includes('Errores_Patron_Detectados') && csvContent.includes('Tasa_Recall_Porcentaje'));
+
+        document.getElementById('test-output').innerHTML = '<h2>TEST RESULTS</h2><pre>' + results.join('\n') + '</pre>';
+      });
+
+    } catch (err) {
+      console.error('Test runner failed:', err);
+      results.push('CRASH: ' + err.message);
+      document.getElementById('test-output').innerHTML = '<h2>ERROR</h2><pre>' + results.join('\n') + '</pre>';
+    }
+  </script>
+
+
+</body></html>

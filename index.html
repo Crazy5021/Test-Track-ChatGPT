@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlanCheck AI - Instrumento de Investigación Experimental</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/viewer.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+
+  <!-- ==================== ENCABEZADO INSTITUCIONAL ==================== -->
+  <header class="app-header">
+    <div class="brand-container" data-navigate="home">
+      <div class="brand-icon">📐</div>
+      <div class="brand-titles">
+        <h1>PlanCheck AI</h1>
+        <span>Evaluación experimental de IA en revisión de planos &bull; Obras Civiles</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span id="header-session-status" class="session-status-badge" style="display: none;">
+        <span class="status-dot"></span> Sesión en curso
+      </span>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" data-navigate="home">
+          <span>🏠</span> <span>Inicio</span>
+        </button>
+        <button class="nav-btn" data-navigate="modality">
+          <span>🎯</span> <span>Evaluación</span>
+        </button>
+        <button class="nav-btn" data-navigate="workspace">
+          <span>✏️</span> <span>Revisión</span>
+        </button>
+        <button class="nav-btn" data-navigate="comparison">
+          <span>📊</span> <span>Comparación</span>
+        </button>
+        <button class="nav-btn" data-navigate="history">
+          <span>📁</span> <span>Historial</span>
+        </button>
+        <button class="nav-btn" id="btn-open-settings" title="Configurar API / Parámetros">
+          <span>⚙️</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== CONTENEDOR PRINCIPAL ==================== -->
+  <main class="main-wrapper">
+
+    <!-- 1. VISTA DE INICIO (HOME) -->
+    <section id="view-home" class="view-section active">
+      <div class="welcome-container">
+        <div class="hero-banner">
+          <h1>PlanCheck AI</h1>
+          <div class="subtitle">
+            Evaluación experimental de inteligencia artificial como apoyo en la revisión de planos de construcción.
+          </div>
+          <div class="hero-academic-badges">
+            <span class="academic-badge">Ingeniería en Obras Civiles</span>
+            <span class="academic-badge">Metodología Experimental</span>
+            <span class="academic-badge">Human-in-the-Loop</span>
+          </div>
+        </div>
+
+        <!-- Tarjetas del Contexto de Investigación -->
+        <div class="research-grid">
+          <div class="info-card">
+            <div class="info-card-icon">🏗️</div>
+            <h3>Campo de Investigación</h3>
+            <p>
+              Aplicación de inteligencia artificial en la revisión de planos de construcción, control de calidad dimensional, geométrico y normativo.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-icon">❓</div>
+            <h3>Pregunta de Investigación</h3>
+            <p>
+              “¿En qué medida el uso de una herramienta basada en inteligencia artificial puede apoyar a estudiantes de Ingeniería en Obras Civiles en la detección de errores e inconsistencias en planos de construcción?”
+            </p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-icon">🎯</div>
+            <h3>Objetivo del Instrumento</h3>
+            <p>
+              Simular y registrar empíricamente la experiencia de revisión de un plano comparando una condición sin IA (control) contra una asistida por IA con validación humana.
+            </p>
+          </div>
+        </div>
+
+        <!-- Banner Ético y Académico -->
+        <div class="academic-notice warning">
+          <div class="academic-notice-title">
+            <span>⚖️</span> Principio de Rigor Académico
+          </div>
+          <p>
+            <strong>La inteligencia artificial funciona como herramienta de apoyo y sus resultados deben ser validados por el usuario.</strong>
+            Sus sugerencias pueden incluir falsos positivos o imprecisiones. El criterio técnico del estudiante es el elemento determinante final (Human-in-the-Loop).
+          </p>
+        </div>
+
+        <!-- Identificación del Participante -->
+        <div class="participant-card">
+          <h3><span>👤</span> Ficha de Registro del Participante</h3>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="participant-name">Nombre completo o Seudónimo:</label>
+              <input type="text" id="participant-name" class="form-control" placeholder="Ej. Juan Pérez (o código de estudio)">
+            </div>
+            <div class="form-group">
+              <label for="participant-code">Código de Estudiante / ID:</label>
+              <input type="text" id="participant-code" class="form-control" placeholder="Ej. EST-2026-44">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="participant-semester">Semestre / Nivel Académico:</label>
+              <select id="participant-semester" class="form-control">
+                <option value="6to Semestre">6to Semestre</option>
+                <option value="7mo Semestre">7mo Semestre</option>
+                <option value="8vo Semestre" selected>8vo Semestre</option>
+                <option value="9no Semestre">9no Semestre</option>
+                <option value="10mo Semestre / Titulación">10mo Semestre / Titulación</option>
+                <option value="Egresado / Posgrado">Egresado / Posgrado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Carrera:</label>
+              <input type="text" class="form-control" value="Ingeniería en Obras Civiles" readonly style="background: #f1f5f9;">
+            </div>
+          </div>
+          <div style="text-align: right; margin-top: 10px;">
+            <button class="btn btn-primary btn-lg" data-navigate="modality">
+              Comenzar evaluación &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VISTA DE SELECCIÓN DE MODALIDAD -->
+    <section id="view-modality" class="view-section">
+      <div class="modality-selection-container">
+        <div class="section-header">
+          <h2>Selección de Modalidad Experimental</h2>
+          <p>
+            Seleccione la condición experimental asignada para esta sesión. Ambas modalidades registran los tiempos y hallazgos con fines comparativos.
+          </p>
+        </div>
+
+        <div class="modality-cards-grid">
+          <!-- Opción A: Revisión sin IA -->
+          <div class="modality-card" id="card-modality-no-ia">
+            <div class="modality-card-header">
+              <div class="modality-icon no-ia">📐</div>
+              <div class="modality-title">
+                <h3>A. Revisión sin IA</h3>
+                <span class="modality-tag">Grupo de Control &bull; Tradicional</span>
+              </div>
+            </div>
+            <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.45;">
+              El estudiante realiza la inspección manual del plano técnico aplicando únicamente su conocimiento, lectura de cotas, verificación geométrica y criterio profesional.
+            </p>
+            <ul class="modality-features">
+              <li><span>✓</span> Visor interactivo de plano con zoom y desplazamiento.</li>
+              <li><span>✓</span> Registro cronometrado de inicio y fin.</li>
+              <li><span>✓</span> Formulario de documentación de inconsistencias.</li>
+              <li><span>✗</span> Sin módulo ni sugerencias de asistencia de IA.</li>
+            </ul>
+            <div style="text-align: center; margin-top: auto;">
+              <span class="btn btn-secondary btn-sm" style="width: 100%;">Seleccionar Condición A</span>
+            </div>
+          </div>
+
+          <!-- Opción B: Revisión asistida por IA -->
+          <div class="modality-card" id="card-modality-with-ia">
+            <div class="modality-card-header">
+              <div class="modality-icon with-ia">🤖</div>
+              <div class="modality-title">
+                <h3>B. Revisión asistida por IA</h3>
+                <span class="modality-tag">Grupo Experimental &bull; Human-in-the-Loop</span>
+              </div>
+            </div>
+            <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.45;">
+              El estudiante cuenta con el soporte de un módulo de análisis asistido por IA que emite detecciones preliminares. El estudiante debe evaluar críticamente cada recomendación.
+            </p>
+            <ul class="modality-features">
+              <li><span>✓</span> Todas las funciones de visualización y cronometraje.</li>
+              <li><span>✓</span> Consulta y generación de análisis asistido por IA.</li>
+              <li><span>✓</span> <strong>Validación Humana Obligatoria:</strong> clasificar en Error Confirmado, Falso Positivo o Revisión.</li>
+              <li><span>✓</span> Incorporación de hallazgos auditados a la bitácora.</li>
+            </ul>
+            <div style="text-align: center; margin-top: auto;">
+              <span class="btn btn-secondary btn-sm" style="width: 100%;">Seleccionar Condición B</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <button class="btn btn-secondary" data-navigate="home">&larr; Volver al Inicio</button>
+          <button class="btn btn-primary btn-lg" id="btn-confirm-start-evaluation" disabled>
+            Iniciar Sesión Experimental &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. VISTA DE ESPACIO DE TRABAJO (REVISIÓN) -->
+    <section id="view-workspace" class="view-section">
+      <div class="workspace-container">
+        
+        <!-- Barra Superior de Control de Sesión y Cronómetro -->
+        <div class="session-control-bar">
+          <div class="session-info-left">
+            <div id="workspace-modality-badge" class="session-badge-large no-ia">
+              <span>📐</span> Revisión Sin IA
+            </div>
+            <div class="participant-live-tag" id="workspace-participant-info">
+              Participante: <strong>Estudiante</strong>
+            </div>
+          </div>
+
+          <!-- Cronómetro Digital -->
+          <div class="timer-container">
+            <span class="timer-pulse"></span>
+            <span class="timer-label">Tiempo de Revisión:</span>
+            <span class="timer-clock" id="session-timer-display">00:00</span>
+          </div>
+
+          <!-- Botón para Concluir la Revisión -->
+          <div>
+            <button class="btn btn-danger" id="btn-finish-review">
+              <span>🏁</span> Finalizar revisión
+            </button>
+          </div>
+        </div>
+
+        <!-- Grilla de Trabajo: Visor de Plano (Izquierda) + Panel de Herramientas (Derecha) -->
+        <div class="workspace-grid">
+
+          <!-- COLUMNA 1: VISOR DE PLANO INTERACTIVO -->
+          <div class="viewer-card">
+            <div class="viewer-header">
+              <div class="viewer-title-group">
+                <h2><span>📐</span> Visor de Plano</h2>
+                <span class="plan-source-badge" id="plan-source-title">Plano Experimental: PROJECT - 2 (8 Errores Controlados)</span>
+              </div>
+              <div class="viewer-actions">
+                <button class="btn btn-secondary btn-sm" id="btn-upload-plan-file" title="Cargar imagen de plano propio">
+                  📁 Cargar plano
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btn-reset-demo-plan" title="Restablecer plano demostrativo del experimento">
+                  🔄 Plano Demo
+                </button>
+              </div>
+            </div>
+
+            <!-- Contenedor del Visor con Pan & Zoom -->
+            <div class="viewer-viewport" id="viewer-viewport">
+              <div class="viewer-content-container" id="viewer-content-container">
+                <!-- SVG or Image will be injected here by viewer.js -->
+              </div>
+
+              <!-- Barra Flotante de Herramientas de Zoom -->
+              <div class="viewer-toolbar">
+                <button class="tool-btn" id="tool-zoom-out" title="Reducir (Zoom Out)">−</button>
+                <span class="zoom-indicator" id="zoom-percentage">100%</span>
+                <button class="tool-btn" id="tool-zoom-in" title="Ampliar (Zoom In)">+</button>
+                <button class="tool-btn" id="tool-fit-screen" title="Ajustar a pantalla">⛶</button>
+                <button class="tool-btn" id="tool-reset-view" title="Restablecer vista">1:1</button>
+                <button class="tool-btn" id="tool-pin-mode" title="Modo capturar coordenada con clic">📍</button>
+              </div>
+
+              <div class="viewer-hint">
+                <span>💡</span> Rueda del ratón para Zoom &bull; Arrastre para Desplazar &bull; Clic en el plano para capturar coordenada
+              </div>
+
+              <!-- Modal / Dropzone para Cargar Archivo Propio -->
+              <div class="blueprint-dropzone" id="blueprint-dropzone">
+                <div class="dropzone-border">
+                  <div class="dropzone-icon">📤</div>
+                  <div class="dropzone-text">
+                    <h4>Cargar Plano de Construcción</h4>
+                    <p>Seleccione un archivo de imagen (PNG, JPG, SVG) o plano digitalizado para su análisis.</p>
+                  </div>
+                  <input type="file" id="blueprint-file-input" accept="image/png, image/jpeg, image/svg+xml, application/pdf" style="display: none;">
+                  <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="document.getElementById('blueprint-file-input').click()">
+                      Seleccionar Archivo
+                    </button>
+                    <button class="btn btn-secondary" id="btn-close-dropzone">
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLUMNA 2: PANEL DE REGISTRO DE HALLAZGOS Y ANÁLISIS DE IA -->
+          <div class="tools-panel-card">
+            <!-- Pestañas de Navegación del Panel -->
+            <div class="panel-tabs-header">
+              <button class="panel-tab-btn active" data-tab="findings">
+                <span>📋</span> Hallazgos Registrados <span class="tab-badge findings-count-badge">0</span>
+              </button>
+              <button class="panel-tab-btn" data-tab="ai" id="tab-btn-ai">
+                <span>🤖</span> Análisis Asistido por IA
+              </button>
+            </div>
+
+            <div class="panel-content-area">
+
+              <!-- TAB 1: FORMULARIO Y LISTA DE HALLAZGOS -->
+              <div class="panel-tab-view active" id="tab-view-findings">
+                <!-- Formulario de Registro de Hallazgo -->
+                <div class="finding-form-card">
+                  <div class="finding-form-header">
+                    <h4>Documentar Posible Inconsistencia</h4>
+                    <span class="pin-hint">📍 Clic en plano llena coordenada</span>
+                  </div>
+
+                  <form id="new-finding-form">
+                    <div class="form-grid-2">
+                      <div class="form-group">
+                        <label for="finding-location">Ubicación en el plano:</label>
+                        <input type="text" id="finding-location" class="form-control" placeholder="Ej. Eje A-B / Cota norte" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="finding-type">Tipo de error:</label>
+                        <select id="finding-type" class="form-control">
+                          <option value="Dimensional">Dimensional</option>
+                          <option value="Geométrico">Geométrico</option>
+                          <option value="Anotación">Anotación</option>
+                          <option value="Inconsistencia">Inconsistencia</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="finding-desc">Descripción del hallazgo:</label>
+                      <textarea id="finding-desc" class="form-control" rows="2" placeholder="Detalla el error o inconsistencia observado..." required></textarea>
+                    </div>
+
+                    <div class="form-grid-2">
+                      <div class="form-group">
+                        <label for="finding-correction">Corrección propuesta:</label>
+                        <input type="text" id="finding-correction" class="form-control" placeholder="Ej. Rectificar cota a 7.50m">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="finding-confidence">Nivel de confianza:</label>
+                        <select id="finding-confidence" class="form-control">
+                          <option value="Alto">Alto</option>
+                          <option value="Medio" selected>Medio</option>
+                          <option value="Bajo">Bajo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+                      <button type="button" class="btn btn-secondary btn-sm" id="btn-cancel-edit-finding" style="display: none;">
+                        Cancelar edición
+                      </button>
+                      <button type="submit" class="btn btn-primary" id="btn-submit-finding">
+                        Agregar hallazgo
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Lista de Hallazgos del Estudiante -->
+                <div class="findings-list-header">
+                  <h4>Lista de Hallazgos de la Sesión</h4>
+                  <span style="font-size: 12px; color: var(--color-text-muted);">
+                    Total: <strong class="findings-count-badge">0</strong>
+                  </span>
+                </div>
+
+                <div id="findings-list-container">
+                  <!-- Rendered dynamically by findings.js -->
+                </div>
+              </div>
+
+              <!-- TAB 2: ANÁLISIS ASISTIDO POR IA -->
+              <div class="panel-tab-view" id="tab-view-ai">
+                <div class="ai-query-box">
+                  <div class="ai-status-row">
+                    <span class="ai-engine-tag" id="ai-engine-status-badge">
+                      <span>⚡</span> Modelo Calibrado de Demostración
+                    </span>
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('btn-open-settings').click()">
+                      ⚙️ Configurar
+                    </button>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="ai-query-input">Instrucción para el análisis técnico:</label>
+                    <textarea id="ai-query-input" class="form-control" rows="3"></textarea>
+                  </div>
+
+                  <button class="btn btn-primary" id="btn-ask-ai" style="width: 100%;">
+                    ✨ Solicitar análisis de IA
+                  </button>
+                </div>
+
+                <!-- Resultados y Tarjetas de Validación HITL -->
+                <div id="ai-results-container">
+                  <!-- Rendered dynamically by ai-assistant.js -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. VISTA DE ENCUESTA FINAL (POST-EXPERIENCIA) -->
+    <section id="view-survey" class="view-section">
+      <div class="survey-container">
+        <div class="section-header" style="text-align: left; margin-bottom: 24px;">
+          <h2>Encuesta Académica Post-Experiencia</h2>
+          <p>
+            Por favor evalúe los siguientes enunciados en una escala de 1 a 5, según su experiencia personal durante la revisión del plano técnico.
+          </p>
+        </div>
+
+        <form id="post-session-survey-form">
+          <!-- Pregunta 1 -->
+          <div class="survey-item">
+            <div class="survey-question">1. ¿Qué tan útil fue la herramienta de revisión en el ejercicio?</div>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="q1_usefulness" value="1" required>
+                <span class="likert-label">1<br>Nada útil</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q1_usefulness" value="2">
+                <span class="likert-label">2<br>Poco útil</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q1_usefulness" value="3">
+                <span class="likert-label">3<br>Moderada</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q1_usefulness" value="4">
+                <span class="likert-label">4<br>Útil</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q1_usefulness" value="5">
+                <span class="likert-label">5<br>Muy útil</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 2 -->
+          <div class="survey-item">
+            <div class="survey-question">2. ¿Qué tan confiables consideraste las sugerencias técnicas presentadas?</div>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="q2_reliability" value="1" required>
+                <span class="likert-label">1<br>Muy baja</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q2_reliability" value="2">
+                <span class="likert-label">2<br>Baja</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q2_reliability" value="3">
+                <span class="likert-label">3<br>Media</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q2_reliability" value="4">
+                <span class="likert-label">4<br>Alta</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q2_reliability" value="5">
+                <span class="likert-label">5<br>Muy alta</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 3 -->
+          <div class="survey-item">
+            <div class="survey-question">3. ¿La herramienta / asistencia facilitó la identificación de inconsistencias?</div>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="q3_facilitation" value="1" required>
+                <span class="likert-label">1<br>Totalmente en desacuerdo</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q3_facilitation" value="2">
+                <span class="likert-label">2<br>En desacuerdo</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q3_facilitation" value="3">
+                <span class="likert-label">3<br>Neutral</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q3_facilitation" value="4">
+                <span class="likert-label">4<br>De acuerdo</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q3_facilitation" value="5">
+                <span class="likert-label">5<br>Totalmente de acuerdo</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 4 -->
+          <div class="survey-item">
+            <div class="survey-question">4. ¿Sentiste la necesidad de verificar y auditar críticamente cada indicación?</div>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="q4_need_to_verify" value="1" required>
+                <span class="likert-label">1<br>Nunca</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q4_need_to_verify" value="2">
+                <span class="likert-label">2<br>Rara vez</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q4_need_to_verify" value="3">
+                <span class="likert-label">3<br>A veces</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q4_need_to_verify" value="4">
+                <span class="likert-label">4<br>Frecuentemente</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q4_need_to_verify" value="5">
+                <span class="likert-label">5<br>Siempre</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 5 -->
+          <div class="survey-item">
+            <div class="survey-question">5. ¿Utilizarías una herramienta similar en una revisión real de planos de obras civiles?</div>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="q5_future_use" value="1" required>
+                <span class="likert-label">1<br>Definitivamente no</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q5_future_use" value="2">
+                <span class="likert-label">2<br>Probablemente no</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q5_future_use" value="3">
+                <span class="likert-label">3<br>Tal vez</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q5_future_use" value="4">
+                <span class="likert-label">4<br>Probablemente sí</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="q5_future_use" value="5">
+                <span class="likert-label">5<br>Definitivamente sí</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Comentarios Abiertos -->
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="survey-comments">Observaciones o reflexiones cualitativas sobre la experiencia:</label>
+            <textarea id="survey-comments" class="form-control" rows="3" placeholder="Indique qué dificultades experimentó, si detectó falsos positivos en las sugerencias o cómo mejoraría el flujo..."></textarea>
+          </div>
+
+          <div style="text-align: right; margin-top: 24px;">
+            <button type="submit" class="btn btn-primary btn-lg">
+              Registrar Encuesta y Concluir &rarr;
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. VISTA DE RESUMEN DE RESULTADOS -->
+    <section id="view-summary" class="view-section">
+      <div class="summary-container">
+        <div class="section-header" style="text-align: left; margin-bottom: 20px;">
+          <h2>Resumen de la Sesión Experimental</h2>
+          <p id="summary-participant-info">Datos registrados durante la experiencia académica.</p>
+        </div>
+
+        <div class="academic-notice info">
+          <div class="academic-notice-title">
+            <span>ℹ️</span> Nota de Validez Metodológica
+          </div>
+          <p>
+            Estos valores corresponden a la evidencia empírica capturada en la sesión del participante. 
+            No constituyen conclusiones científicas definitivas hasta completar el análisis estadístico consolidado.
+          </p>
+        </div>
+
+        <!-- Métricas Principales -->
+        <div class="summary-stats-grid">
+          <div class="stat-metric-card">
+            <div class="stat-value" id="summary-time-display">00:00</div>
+            <div class="stat-label">Duración Total</div>
+          </div>
+
+          <div class="stat-metric-card">
+            <div class="stat-value" id="summary-findings-count">0</div>
+            <div class="stat-label">Hallazgos Registrados</div>
+          </div>
+
+          <div class="stat-metric-card">
+            <div class="stat-value" style="color: var(--color-success);" id="summary-confirmed-count">-</div>
+            <div class="stat-label">Errores Confirmados (HITL)</div>
+          </div>
+
+          <div class="stat-metric-card">
+            <div class="stat-value" style="color: var(--color-danger);" id="summary-false-positive-count">-</div>
+            <div class="stat-label">Falsos Positivos Descartados</div>
+          </div>
+        </div>
+
+        <!-- Métricas Secundarias -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div class="stat-metric-card" style="text-align: left; padding: 18px 24px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--color-text-main); margin-bottom: 4px;">
+              Elementos Marcados en Revisión:
+            </div>
+            <div style="font-size: 20px; font-weight: 800; color: var(--color-warning);" id="summary-review-count">
+              -
+            </div>
+            <small style="color: var(--color-text-light);">Sugerencias con ambigüedad o dudas técnicas pendientes.</small>
+          </div>
+
+          <div class="stat-metric-card" style="text-align: left; padding: 18px 24px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--color-text-main); margin-bottom: 4px;">
+              Tasa de Auditoría Crítica:
+            </div>
+            <div style="font-size: 20px; font-weight: 800; color: var(--color-secondary);" id="summary-critical-rate">
+              -
+            </div>
+            <small style="color: var(--color-text-light);">Porcentaje de sugerencias cuestionadas o descartadas por el usuario.</small>
+          </div>
+        </div>
+
+        <!-- Evaluación contra Patrón de Control (Ground Truth / Errores Omitidos) -->
+        <div class="participant-card" style="margin-bottom: 24px;">
+          <h3><span>🎯</span> Matriz de Cobertura de Errores Controlados (Plano PROJECT - 2 &bull; 8 Errores Oficiales)</h3>
+          <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 16px;">
+            Contraste de los hallazgos del participante frente a los <strong>8 errores controlados</strong> inyectados en la lámina experimental (según clave oficial):
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+            <div class="stat-metric-card">
+              <div class="stat-value" style="color: var(--color-success);" id="summary-gt-detected">0 / 8</div>
+              <div class="stat-label">Errores Detectados</div>
+            </div>
+            <div class="stat-metric-card">
+              <div class="stat-value" style="color: var(--color-danger);" id="summary-gt-omitted">8 / 8</div>
+              <div class="stat-label">Errores Omitidos</div>
+            </div>
+            <div class="stat-metric-card">
+              <div class="stat-value" style="color: var(--color-secondary);" id="summary-gt-recall">0%</div>
+              <div class="stat-label">Sensibilidad (Recall)</div>
+            </div>
+          </div>
+
+          <div id="summary-gt-breakdown-container">
+            <!-- Dynamic breakdown of the 4 ground truth items -->
+          </div>
+        </div>
+
+        <!-- Acciones del Resumen -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-secondary" id="btn-export-current-csv">
+              📥 Descargar Hallazgos (CSV)
+            </button>
+            <button class="btn btn-secondary" data-navigate="comparison">
+              📊 Ir a Comparación Experimental
+            </button>
+          </div>
+
+          <button class="btn btn-primary" data-navigate="home">
+            Finalizar y Volver al Inicio
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. VISTA DE COMPARACIÓN EXPERIMENTAL -->
+    <section id="view-comparison" class="view-section">
+      <div id="comparison-results-view">
+        <!-- Rendered dynamically by comparison.js -->
+      </div>
+    </section>
+
+    <!-- 7. VISTA DE HISTORIAL Y EXPORTACIÓN DE DATOS -->
+    <section id="view-history" class="view-section">
+      <div style="max-width: 1050px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 22px; font-weight: 800; color: var(--color-primary);">Historial de Sesiones Registradas</h2>
+            <p style="font-size: 13.5px; color: var(--color-text-muted);">
+              Evidencia empírica almacenada para su consolidación y análisis estadístico en la investigación.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" id="btn-load-demo-data" title="Cargar 6 sesiones de muestra para demostración académica">
+              ⚡ Cargar Datos DEMO
+            </button>
+            <button class="btn btn-success" id="btn-export-csv">
+              📊 Exportar Todo a CSV
+            </button>
+            <button class="btn btn-primary" id="btn-export-json">
+              💾 Exportar Todo a JSON
+            </button>
+            <button class="btn btn-danger btn-sm" id="btn-clear-all-data" title="Limpiar almacenamiento local">
+              🗑️
+            </button>
+          </div>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID Sesión</th>
+                <th>Participante</th>
+                <th>Modalidad</th>
+                <th>Fecha</th>
+                <th>Tiempo Total</th>
+                <th>Hallazgos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body">
+              <!-- Rendered by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODALES ==================== -->
+
+  <!-- Modal: Confirmación de Finalización de Revisión -->
+  <div class="modal-backdrop" id="modal-confirm-finish">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🏁 Confirmar Finalización de la Revisión</h3>
+        <button class="modal-close" onclick="window.app.closeModal('modal-confirm-finish')">&times;</button>
+      </div>
+      <div class="modal-body" id="finish-modal-message">
+        <!-- Message populated dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-finish">Continuar Revisando</button>
+        <button class="btn btn-danger" id="btn-confirm-finish">Sí, Finalizar Revisión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Configuración de API / Asistente -->
+  <div class="modal-backdrop" id="modal-settings">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>⚙️ Configuración del Asistente de IA</h3>
+        <button class="modal-close" id="btn-close-settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="academic-notice info" style="margin-bottom: 16px;">
+          <div class="academic-notice-title">Integración de API de IA</div>
+          <p>
+            Por defecto, el instrumento opera en <strong>Modo Calibrado de Demostración</strong>, con hallazgos estructurados para evaluar la validación crítica (Human-in-the-Loop). Opcionalmente puede conectar una clave de API de Google Gemini para pruebas en vivo.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="settings-use-demo" checked>
+            <strong>Utilizar Modo Calibrado de Demostración Académico</strong>
+          </label>
+          <small style="color: var(--color-text-light); margin-left: 20px;">
+            Recomendado para experimentos controlados donde todos los participantes deben enfrentarse a las mismas inconsistencias y falsos positivos de control.
+          </small>
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="settings-gemini-key">Clave de API Gemini (Opcional):</label>
+          <input type="password" id="settings-gemini-key" class="form-control" placeholder="AIzaSy...">
+          <small style="color: var(--color-text-light);">
+            Solo se utiliza si se desmarca el modo demostración. La clave se almacena exclusivamente en la memoria local de su navegador.
+          </small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-save-settings">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Embebido del Plano SVG para Compatibilidad Total con Protocolo file:// sin Restricciones CORS -->
+  <template id="default-blueprint-template">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="100%" height="100%">
+      <defs>
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.5"/>
+        </pattern>
+        <marker id="tick" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8">
+          <line x1="1" y1="9" x2="9" y2="1" stroke="#0284c7" stroke-width="1.8" />
+        </marker>
+      </defs>
+
+      <!-- Fondo y grilla técnica -->
+      <rect width="1200" height="850" fill="#ffffff" />
+      <rect width="1200" height="850" fill="url(#grid)" />
+
+      <!-- Borde de lámina -->
+      <rect x="25" y="25" width="1150" height="800" fill="none" stroke="#1e293b" stroke-width="2.5" />
+      <rect x="35" y="35" width="1130" height="780" fill="none" stroke="#64748b" stroke-width="0.8" />
+
+      <!-- Encabezado de lámina -->
+      <text x="50" y="65" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold" fill="#0f172a">UNIVERSIDAD - FACULTAD DE INGENIERÍA EN OBRAS CIVILES</text>
+      <text x="50" y="82" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#475569">PROYECTO EXPERIMENTAL: EVALUACIÓN DE CONTROL DE CALIDAD Y REVISIÓN DE PLANOS</text>
+
+      <!-- ==================== EJES ESTRUCTURALES ==================== -->
+      <!-- Eje 1 (X = 180) -->
+      <line x1="180" y1="110" x2="180" y2="650" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="180" cy="110" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="180" y="115" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">1</text>
+      <circle cx="180" cy="650" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="180" y="655" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">1</text>
+
+      <!-- Eje 2 (X = 540) -->
+      <line x1="540" y1="110" x2="540" y2="650" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="540" cy="110" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="540" y="115" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">2</text>
+      <circle cx="540" cy="650" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="540" y="655" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">2</text>
+
+      <!-- Eje 3 (X = 855) -->
+      <line x1="855" y1="110" x2="855" y2="650" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="855" cy="110" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="855" y="115" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">3</text>
+      <circle cx="855" cy="650" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="855" y="655" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">3</text>
+
+      <!-- Eje A (Y = 180) -->
+      <line x1="110" y1="180" x2="925" y2="180" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="110" cy="180" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="110" y="185" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">A</text>
+      <circle cx="925" cy="180" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="925" y="185" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">A</text>
+
+      <!-- Eje B (Y = 380) -->
+      <line x1="110" y1="380" x2="925" y2="380" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="110" cy="380" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="110" y="385" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">B</text>
+      <circle cx="925" cy="380" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="925" y="385" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">B</text>
+
+      <!-- Eje C (Y = 580) -->
+      <line x1="110" y1="580" x2="925" y2="580" stroke="#dc2626" stroke-width="1" stroke-dasharray="12,4,3,4" opacity="0.75" />
+      <circle cx="110" cy="580" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="110" y="585" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">C</text>
+      <circle cx="925" cy="580" r="16" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" />
+      <text x="925" y="585" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">C</text>
+
+      <!-- ==================== MUROS ESTRUCTURALES Y TABIQUERÍA ==================== -->
+      <rect x="170" y="170" width="695" height="20" fill="#334155" stroke="#0f172a" stroke-width="1.5" />
+      
+      <!-- Vano Ventana Norte V-1 -->
+      <rect x="300" y="170" width="120" height="20" fill="#ffffff" stroke="#0284c7" stroke-width="1" />
+      <line x1="300" y1="180" x2="420" y2="180" stroke="#0284c7" stroke-width="2" />
+      <text x="360" y="162" font-family="Arial" font-size="10" font-weight="bold" fill="#0284c7" text-anchor="middle">V-1 (1.20 x 1.10 m)</text>
+
+      <!-- Vano Ventana Norte V-2 -->
+      <rect x="650" y="170" width="90" height="20" fill="#ffffff" stroke="#0284c7" stroke-width="1" />
+      <line x1="650" y1="180" x2="740" y2="180" stroke="#0284c7" stroke-width="2" />
+      <text x="695" y="162" font-family="Arial" font-size="10" font-weight="bold" fill="#0284c7" text-anchor="middle">V-2 (1.50 x 1.10 m)</text>
+
+      <!-- Muro Sur -->
+      <rect x="170" y="570" width="695" height="20" fill="#334155" stroke="#0f172a" stroke-width="1.5" />
+      
+      <!-- Vano Puerta Principal P-1 -->
+      <rect x="310" y="570" width="90" height="20" fill="#ffffff" stroke="#0f172a" stroke-width="1" />
+      <line x1="310" y1="570" x2="310" y2="500" stroke="#7c2d12" stroke-width="2" />
+      <path d="M 310 500 A 70 70 0 0 1 380 570" fill="none" stroke="#7c2d12" stroke-width="1" stroke-dasharray="3,3" />
+      <text x="345" y="605" font-family="Arial" font-size="10" font-weight="bold" fill="#7c2d12" text-anchor="middle">P-1 (0.90 x 2.10 m)</text>
+
+      <!-- Vano Ventana Sur V-3 -->
+      <rect x="620" y="570" width="130" height="20" fill="#ffffff" stroke="#0284c7" stroke-width="1" />
+      <line x1="620" y1="580" x2="750" y2="580" stroke="#0284c7" stroke-width="2" />
+      <text x="685" y="605" font-family="Arial" font-size="10" font-weight="bold" fill="#0284c7" text-anchor="middle">V-3 (1.40 x 1.10 m)</text>
+
+      <!-- Muro Poniente -->
+      <rect x="170" y="190" width="20" height="380" fill="#334155" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Muro Oriente -->
+      <rect x="845" y="190" width="20" height="380" fill="#334155" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Muro Intermedio Vertical Eje 2 -->
+      <rect x="530" y="190" width="20" height="150" fill="#475569" stroke="#0f172a" stroke-width="1.2" />
+      <rect x="530" y="420" width="20" height="150" fill="#475569" stroke="#0f172a" stroke-width="1.2" />
+      
+      <!-- Tabique Divisorio Horizontal Eje B -->
+      <rect x="550" y="370" width="295" height="18" fill="#475569" stroke="#0f172a" stroke-width="1.2" />
+
+      <!-- Puerta Dormitorio P-2 (Inconsistencia geométrica de abatimiento) -->
+      <rect x="570" y="370" width="75" height="18" fill="#ffffff" stroke="#0f172a" stroke-width="1" />
+      <line x1="570" y1="370" x2="570" y2="440" stroke="#e11d48" stroke-width="2.5" />
+      <path d="M 570 440 A 70 70 0 0 0 640 370" fill="none" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="3,3" />
+      <text x="610" y="415" font-family="Arial" font-size="9.5" font-weight="bold" fill="#e11d48">P-2 (0.80 m)</text>
+      <text x="575" y="455" font-family="Arial" font-size="8" fill="#e11d48" font-style="italic">¡Apertura obstaculiza paso!</text>
+
+      <!-- ==================== ROTULACIÓN DE RECINTOS ==================== -->
+      <rect x="230" y="270" width="260" height="180" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4,4" rx="6" />
+      <text x="360" y="340" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">SALA / ESTAR - COMEDOR</text>
+      <text x="360" y="360" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Área: 22.50 m² | Piso Cerámico</text>
+      <circle cx="360" cy="385" r="10" fill="none" stroke="#0f172a" stroke-width="1" />
+      <line x1="350" y1="385" x2="370" y2="385" stroke="#0f172a" stroke-width="1" />
+      <line x1="360" y1="375" x2="360" y2="395" stroke="#0f172a" stroke-width="1" />
+      <text x="380" y="389" font-family="Arial" font-size="10.5" font-weight="bold" fill="#0f172a">N.P.T. +0.15 m</text>
+
+      <text x="700" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">DORMITORIO 1</text>
+      <text x="700" y="290" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Área: 11.20 m² | Piso Flotante</text>
+      <text x="700" y="310" font-family="Arial" font-size="10" fill="#475569" text-anchor="middle">N.P.T. +0.15 m</text>
+
+      <text x="700" y="470" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">COCINA - SERVICIOS</text>
+      <text x="700" y="490" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Área: 9.80 m² | Piso Porcelanato</text>
+      <text x="700" y="510" font-family="Arial" font-size="10" fill="#475569" text-anchor="middle">N.P.T. +0.15 m</text>
+
+      <text x="350" y="650" font-family="Arial" font-size="10.5" font-weight="bold" fill="#d97706" text-anchor="middle">ACCESO EXTERIOR (RADIAL)</text>
+      <circle cx="350" cy="670" r="9" fill="none" stroke="#d97706" stroke-width="1" />
+      <line x1="341" y1="670" x2="359" y2="670" stroke="#d97706" stroke-width="1" />
+      <line x1="350" y1="661" x2="350" y2="679" stroke="#d97706" stroke-width="1" />
+      <text x="370" y="674" font-family="Arial" font-size="10" font-weight="bold" fill="#d97706">N.T.N. +0.30 m</text>
+
+      <!-- ==================== LÍNEAS DE COTAS ==================== -->
+      <line x1="180" y1="135" x2="540" y2="135" stroke="#0284c7" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="180" y1="145" x2="180" y2="125" stroke="#0284c7" stroke-width="1" />
+      <line x1="540" y1="145" x2="540" y2="125" stroke="#0284c7" stroke-width="1" />
+      <text x="360" y="130" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle">4.00 m</text>
+
+      <line x1="540" y1="135" x2="855" y2="135" stroke="#0284c7" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="855" y1="145" x2="855" y2="125" stroke="#0284c7" stroke-width="1" />
+      <text x="697" y="130" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle">3.50 m</text>
+
+      <!-- Inconsistencia dimensional 7.20 m vs 7.50 m -->
+      <line x1="180" y1="90" x2="855" y2="90" stroke="#b91c1c" stroke-width="1.5" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="180" y1="105" x2="180" y2="80" stroke="#b91c1c" stroke-width="1" />
+      <line x1="855" y1="105" x2="855" y2="80" stroke="#b91c1c" stroke-width="1" />
+      <rect x="475" y="73" width="85" height="18" fill="#fee2e2" rx="3" stroke="#fca5a5" stroke-width="0.7" />
+      <text x="517" y="86" font-family="'Courier New', monospace" font-size="12.5" font-weight="bold" fill="#991b1b" text-anchor="middle">7.20 m</text>
+
+      <!-- Cotas eje Y -->
+      <line x1="75" y1="180" x2="75" y2="380" stroke="#0284c7" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="65" y1="180" x2="85" y2="180" stroke="#0284c7" stroke-width="1" />
+      <line x1="65" y1="380" x2="85" y2="380" stroke="#0284c7" stroke-width="1" />
+      <text x="68" y="285" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle" transform="rotate(-90 68 285)">2.50 m</text>
+
+      <line x1="75" y1="380" x2="75" y2="580" stroke="#0284c7" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="65" y1="580" x2="85" y2="580" stroke="#0284c7" stroke-width="1" />
+      <text x="68" y="485" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle" transform="rotate(-90 68 485)">2.50 m</text>
+
+      <line x1="45" y1="180" x2="45" y2="580" stroke="#0284c7" stroke-width="1.3" marker-start="url(#tick)" marker-end="url(#tick)" />
+      <line x1="38" y1="180" x2="52" y2="180" stroke="#0284c7" stroke-width="1" />
+      <line x1="38" y1="580" x2="52" y2="580" stroke="#0284c7" stroke-width="1" />
+      <text x="38" y="380" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle" transform="rotate(-90 38 380)">5.00 m</text>
+
+      <!-- Norte Magnético -->
+      <g transform="translate(1080, 100)">
+        <circle cx="0" cy="0" r="28" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+        <polygon points="0,-24 7,10 0,6" fill="#dc2626" />
+        <polygon points="0,-24 -7,10 0,6" fill="#1e293b" />
+        <text x="0" y="-28" font-family="Arial" font-size="12" font-weight="bold" fill="#dc2626" text-anchor="middle">N</text>
+      </g>
+
+      <!-- Cajetín Técnico -->
+      <g transform="translate(730, 680)">
+        <rect x="0" y="0" width="415" height="125" fill="#f8fafc" stroke="#1e293b" stroke-width="1.5" />
+        <line x1="0" y1="35" x2="415" y2="35" stroke="#94a3b8" stroke-width="1" />
+        <line x1="0" y1="80" x2="415" y2="80" stroke="#94a3b8" stroke-width="1" />
+        <line x1="260" y1="35" x2="260" y2="125" stroke="#94a3b8" stroke-width="1" />
+
+        <text x="12" y="18" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">PROYECTO: MÓDULO HABITACIONAL TIPO A</text>
+        <text x="12" y="30" font-family="Arial" font-size="9" fill="#475569">ESPECIALIDAD: ARQUITECTURA Y ESTRUCTURAS BÁSICAS</text>
+
+        <text x="12" y="52" font-family="Arial" font-size="8.5" fill="#64748b">PLANO:</text>
+        <text x="12" y="68" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PLANTA ARQUITECTÓNICA GENERAL</text>
+
+        <text x="12" y="96" font-family="Arial" font-size="8.5" fill="#64748b">INSTRUMENTO EXPERIMENTAL:</text>
+        <text x="12" y="112" font-family="Arial" font-size="9.5" font-weight="bold" fill="#0369a1">PlanCheck AI - Muestra de Estudio</text>
+
+        <text x="272" y="52" font-family="Arial" font-size="8.5" fill="#64748b">ESCALA:</text>
+        <text x="272" y="68" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">1 : 50</text>
+
+        <text x="272" y="96" font-family="Arial" font-size="8.5" fill="#64748b">LÁMINA:</text>
+        <text x="272" y="114" font-family="Arial" font-size="13" font-weight="bold" fill="#dc2626">ARQ - 01 / 01</text>
+      </g>
+
+      <!-- Notas Generales -->
+      <g transform="translate(60, 715)">
+        <text x="0" y="0" font-family="Arial" font-size="10" font-weight="bold" fill="#334155">NOTAS GENERALES:</text>
+        <text x="0" y="16" font-family="Arial" font-size="9" fill="#64748b">1. Cotas en metros (m). Niveles referidos al N.T.N. ±0.00 m.</text>
+        <text x="0" y="30" font-family="Arial" font-size="9" fill="#64748b">2. Medidas a eje salvo indicación contraria en detalle constructivo.</text>
+        <text x="0" y="44" font-family="Arial" font-size="9" fill="#64748b">3. Verificar discrepancias en obra previo al hormigonado de fundaciones.</text>
+        <text x="0" y="58" font-family="Arial" font-size="9" font-weight="bold" fill="#0284c7">4. Documento técnico sujeto a revisión experimental ciega y asistida.</text>
+      </g>
+    </svg>
+  </template>
+
+  <!-- JavaScript Modules -->
+  <script src="scripts/state.js"></script>
+  <script src="scripts/timer.js"></script>
+  <script src="scripts/viewer.js"></script>
+  <script src="scripts/findings.js"></script>
+  <script src="scripts/ai-assistant.js"></script>
+  <script src="scripts/validation.js"></script>
+  <script src="scripts/survey.js"></script>
+  <script src="scripts/comparison.js"></script>
+  <script src="scripts/export.js"></script>
+  <script src="scripts/app.js"></script>
+
+</body>
+</html>

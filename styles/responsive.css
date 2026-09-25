@@ -1,0 +1,131 @@
+/* ==========================================================================
+   PlanCheck AI - Responsive Media Queries
+   ========================================================================== */
+
+/* Large Tablets & Small Desktops (<= 1100px) */
+@media (max-width: 1100px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .viewer-card {
+    height: 540px;
+  }
+
+  .tools-panel-card {
+    min-height: auto;
+  }
+
+  .summary-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablets (<= 768px) */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .brand-titles span {
+    display: none;
+  }
+
+  .main-wrapper {
+    padding: 16px 12px;
+  }
+
+  .hero-banner {
+    padding: 24px 20px;
+  }
+
+  .hero-banner h1 {
+    font-size: 22px;
+  }
+
+  .hero-banner .subtitle {
+    font-size: 14px;
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .modality-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .session-control-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .session-info-left {
+    justify-content: space-between;
+  }
+
+  .timer-container {
+    justify-content: center;
+  }
+
+  .viewer-card {
+    height: 440px;
+  }
+
+  .likert-scale {
+    gap: 4px;
+  }
+
+  .likert-label {
+    font-size: 9.5px;
+  }
+
+  .hitl-validation-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-btn span {
+    display: none;
+  }
+
+  .nav-btn {
+    padding: 8px;
+  }
+}
+
+/* Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
+  .hero-banner {
+    padding: 20px 16px;
+  }
+
+  .summary-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .viewer-card {
+    height: 380px;
+  }
+
+  .viewer-toolbar {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .viewer-hint {
+    display: none;
+  }
+
+  .survey-container {
+    padding: 20px 16px;
+  }
+}

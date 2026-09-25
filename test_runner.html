@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PlanCheck AI - Test Runner</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #0f172a; color: #e2e8f0; }
+    h2 { color: #38bdf8; }
+    .pass { color: #4ade80; }
+    .fail { color: #f87171; }
+    .summary { margin-top: 20px; font-size: 1.2em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>PlanCheck AI - Test Runner</h2>
+  <div id="test-output">Ejecutando pruebas...</div>
+  <div style="display: none;">
+    <div id="session-timer-display"></div>
+    <div id="plan-source-title"></div>
+    <div id="viewer-viewport"><div id="viewer-content-container"></div></div>
+    <form id="new-finding-form">
+      <input id="finding-location">
+      <select id="finding-type"><option value="Dimensional">Dimensional</option></select>
+      <textarea id="finding-desc"></textarea>
+      <input id="finding-correction">
+      <select id="finding-confidence"><option value="Alto">Alto</option></select>
+      <button id="btn-submit-finding"></button>
+      <button id="btn-cancel-edit-finding"></button>
+    </form>
+    <div id="findings-list-container"></div>
+    <textarea id="ai-query-input"></textarea>
+    <button id="btn-ask-ai"></button>
+    <div id="ai-results-container"></div>
+    <div id="ai-engine-status-badge"></div>
+    <form id="post-session-survey-form">
+      <input type="radio" name="q1_usefulness" value="4">
+      <textarea id="survey-comments"></textarea>
+    </form>
+    <div id="comparison-results-view"></div>
+    <table id="history-table-body"></table>
+    <template id="default-blueprint-template"><svg viewBox="0 0 100 100"></svg></template>
+  </div>
+  <script src="scripts/state.js"></script>
+  <script src="scripts/timer.js"></script>
+  <script src="scripts/viewer.js"></script>
+  <script src="scripts/findings.js"></script>
+  <script src="scripts/ai-assistant.js"></script>
+  <script src="scripts/validation.js"></script>
+  <script src="scripts/survey.js"></script>
+  <script src="scripts/comparison.js"></script>
+  <script src="scripts/export.js"></script>
+  <script>
+    var results = [];
+    var passCount = 0;
+    var failCount = 0;
+    function assert(name, condition) {
+      if (condition) { results.push('PASS: ' + name); passCount++; console.log('PASS: ' + name); }
+      else { results.push('FAIL: ' + name); failCount++; console.error('FAIL: ' + name); }
+    }
+    function renderResults() {
+      var out = document.getElementById('test-output');
+      var lines = results.map(function(r) {
+        var cls = r.indexOf('PASS') === 0 ? 'pass' : 'fail';
+        return '<div class="' + cls + '">' + r + '</div>';
+      }).join('');
+      out.innerHTML = lines + '<div class="summary ' + (failCount===0?'pass':'fail') + '">--- ' + passCount + ' PASS / ' + failCount + ' FAIL ---</div>';
+      try { localStorage.setItem('plancheck_test_results', JSON.stringify({pass:passCount,fail:failCount,results:results})); } catch(e) {}
+    }
+    async function runTests() {
+      try {
+        // G1: Modules
+        assert('state manager exists', window.state !== undefined);
+        assert('timer module exists', window.timer !== undefined);
+        assert('validationManager exists', window.validationManager !== undefined);
+        assert('dataExporter exists', window.dataExporter !== undefined);
+        // G2: Ground Truth
+        assert('GROUND_TRUTH_ERRORS is Array', Array.isArray(window.state.GROUND_TRUTH_ERRORS));
+        assert('GROUND_TRUTH_ERRORS has 8 items', window.state.GROUND_TRUTH_ERRORS.length === 8);
+        assert('E1 exists', window.state.GROUND_TRUTH_ERRORS.some(function(e){return e.id==='E1';}));
+        assert('E8 exists', window.state.GROUND_TRUTH_ERRORS.some(function(e){return e.id==='E8';}));
+        assert('evaluateGroundTruth is function', typeof window.state.evaluateGroundTruth === 'function');
+        // G3: Session
+        window.state.allSessions = []; window.state.currentSession = null;
+        var s = window.state.startNewSession({name:'Tester',code:'EST-99',semester:'8vo'}, 'con_ia');
+        assert('session modality con_ia', s.modality === 'con_ia');
+        assert('session status in_progress', s.status === 'in_progress');
+        // G4: Findings
+        var f1 = window.state.addFinding({location:'F1 - Cocina',type:'Dimensional',description:"Cota discordante",correction:"12'6\"X10\"",confidence:'Alto'});
+        assert('H-01 added', f1.id === 'H-01');
+        var f2 = window.state.addFinding({location:'F3 - Cocina',type:'Dimensional',description:"Fondo reducido",correction:"12'6\"X10\"",confidence:'Medio'});
+        assert('H-02 added', f2.id === 'H-02');
+        assert('2 findings in session', s.findings.length === 2);
+        // G5: Timer
+        window.timer.start(10);
+        assert('getElapsedSeconds()===10', window.timer.getElapsedSeconds() === 10);
+        assert("formatTime(75)==='01:15'", window.timer.formatTime(75) === '01:15');
+        window.timer.stop();
+        // G6: AI Suggestions
+        var demoAi = new window.AIAssistant();
+        await demoAi.simulateDemoInference('Analiza PROJECT-2');
+        assert('10 suggestions loaded', s.aiAssistance.suggestions.length === 10);
+        assert('AI-01 groundTruthRef E1', s.aiAssistance.suggestions[0].groundTruthRef === 'E1');
+        var ai06 = s.aiAssistance.suggestions.find(function(x){return x.id==='AI-06';});
+        assert('AI-06 isFpTestItem', ai06 && ai06.isFpTestItem === true);
+        var ai10 = s.aiAssistance.suggestions.find(function(x){return x.id==='AI-10';});
+        assert('AI-10 isFpTestItem', ai10 && ai10.isFpTestItem === true);
+        // G7: HITL
+        window.validationManager.classify('AI-01', 'confirmed');
+        window.validationManager.classify('AI-06', 'false_positive');
+        window.validationManager.classify('AI-10', 'false_positive');
+        assert('AI-01 confirmed', s.aiAssistance.suggestions.find(function(x){return x.id==='AI-01';}).validation === 'confirmed');
+        assert('AI-06 false_positive', s.aiAssistance.suggestions.find(function(x){return x.id==='AI-06';}).validation === 'false_positive');
+        var hs = window.validationManager.getValidationStats(s);
+        assert('confirmed===1', hs.confirmed === 1);
+        assert('falsePositive===2', hs.falsePositive === 2);
+        // G8: Ground Truth on Finish
+        window.state.finishCurrentSession();
+        assert('session completed', s.status === 'completed');
+        assert('groundTruthEvaluation exists', s.groundTruthEvaluation != null);
+        assert('total===8', s.groundTruthEvaluation.total === 8);
+        assert('detected+omitted===8', s.groundTruthEvaluation.detectedCount+s.groundTruthEvaluation.omittedCount===8);
+        assert('E1 detected', s.groundTruthEvaluation.detectedIds.indexOf('E1') !== -1);
+        // G9: Survey
+        window.state.saveSurveyResults({ratings:{q1_usefulness:5,q2_reliability:4,q3_facilitation:5,q4_need_to_verify:5,q5_future_use:5},comments:'Test'});
+        assert('survey saved q1=5', s.survey.ratings.q1_usefulness === 5);
+        // G10: Demo dataset
+        window.state.loadDemoDataset();
+        assert('6 demo sessions', window.state.allSessions.length === 6);
+        assert('3 sin_ia', window.state.allSessions.filter(function(x){return x.modality==='sin_ia';}).length === 3);
+        assert('3 con_ia', window.state.allSessions.filter(function(x){return x.modality==='con_ia';}).length === 3);
+        // G11: Comparison
+        var comp = new window.ComparisonManager();
+        var sni = window.state.allSessions.filter(function(x){return x.modality==='sin_ia';});
+        var swi = window.state.allSessions.filter(function(x){return x.modality==='con_ia';});
+        var stni = comp.calculateGroupStats(sni);
+        var stwi = comp.calculateGroupStats(swi);
+        assert('sin_ia count 3', stni.count === 3);
+        assert('con_ia count 3', stwi.count === 3);
+        assert('con_ia avgGtDetected > 0', stwi.avgGtDetected > 0);
+        assert('con_ia avgGtDetected <= 8', stwi.avgGtDetected <= 8);
+        // G12: Export
+        var csv = window.dataExporter.generateCSV(window.state.allSessions);
+        assert('generateCSV returns string', typeof csv === 'string' && csv.length > 0);
+        assert('CSV has Errores_Patron_Detectados', csv.indexOf('Errores_Patron_Detectados') !== -1);
+        assert('CSV has Tasa_Recall_Porcentaje', csv.indexOf('Tasa_Recall_Porcentaje') !== -1);
+        assert('CSV has 7+ lines', csv.split('\n').length >= 7);
+      } catch(err) {
+        results.push('FAIL: CRASH - ' + err.message); failCount++;
+        console.error('CRASH:', err);
+      }
+      renderResults();
+    }
+    runTests();
+  </script>
+</body>
+</html>
